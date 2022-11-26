@@ -58,7 +58,7 @@ impl CoreDns {
 
         let mut resolv_conf: resolv_conf::Config = resolv_conf::Config::new();
         let mut buf = Vec::with_capacity(4096);
-        if let Ok(mut f) = File::open("/etc/resolv.conf") {
+        if let Ok(mut f) = File::open("/etc/resolv-aardvark.conf") {
             if f.read_to_end(&mut buf).is_ok() {
                 if let Ok(conf) = resolv_conf::Config::parse(&buf) {
                     resolv_conf = conf;
