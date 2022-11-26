@@ -7,7 +7,6 @@ use signal_hook::consts::signal::SIGHUP;
 use signal_hook::iterator::Signals;
 use std::fs;
 use std::net::IpAddr;
-use std::net::Ipv4Addr;
 use std::sync::{Arc, Mutex};
 use std::thread;
 
@@ -211,13 +210,10 @@ async fn start_dns_server(
     filter_search_domain: String,
     rx: async_broadcast::Receiver<bool>,
 ) -> Result<(), std::io::Error> {
-    let forward: IpAddr = IpAddr::V4(Ipv4Addr::new(1, 1, 1, 1));
     match CoreDns::new(
         addr,
         port,
         name,
-        forward,
-        53_u16,
         backend_arc.backend,
         kill_switch,
         filter_search_domain,

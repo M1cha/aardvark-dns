@@ -32,15 +32,10 @@ pub struct CoreDns {
 }
 
 impl CoreDns {
-    // Most of the arg can be removed in design refactor.
-    // so dont create a struct for this now.
-    #[allow(clippy::too_many_arguments)]
     pub async fn new(
         address: IpAddr,
         port: u32,
         network_name: &str,
-        forward_addr: IpAddr,
-        forward_port: u16,
         backend: Arc<DNSBackend>,
         kill_switch: Arc<Mutex<bool>>,
         filter_search_domain: String,
@@ -60,11 +55,6 @@ impl CoreDns {
         } else if let Ok(n) = Name::parse(network_name, None) {
             name = n;
         }
-
-        debug!(
-            "Will Forward dns requests to udp://{:?}:{}",
-            forward_addr, forward_port,
-        );
 
         let mut resolv_conf: resolv_conf::Config = resolv_conf::Config::new();
         let mut buf = Vec::with_capacity(4096);
